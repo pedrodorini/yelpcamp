@@ -1,13 +1,19 @@
-let express = require("express")
-let app = express()
-let bodyParser = require("body-parser")
-let campgrounds = [
-    {name: 'Salmon Creek', image: "https://farm3.staticflickr.com/2353/2069978635_2eb8b33cd4.jpg"},
-    {name: 'Granite Hill', image: "https://farm3.staticflickr.com/2535/3823437635_c712decf64.jpg"},
-    {name: 'Goat\'s Rest', image: "https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg"}
-]
+const express = require("express")
+const app = express()
+const bodyParser = require("body-parser")
+const mongoose = require("mongoose")
 
-app.use(bodyParser.urlencoded({extended: true}))
+mongoose.connect("mongodb://localhost/yelp_camp", {
+    useMongoClient: true,
+})
+
+const campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String  
+})
+const Campground = mongoose.model("Campground", campgroundSchema)
+
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
@@ -15,7 +21,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/campgrounds', (req, res) => {
-    res.render('campgrounds', {campgrounds: campgrounds})
+    Campground.find({},(err, campgrounds) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('campgrounds', {campgrounds: campgrounds})
+        }
+    })
 })
 
 app.post('/campgrounds', (req, res) => {
@@ -23,8 +35,15 @@ app.post('/campgrounds', (req, res) => {
         name: req.body.name,
         image: req.body.image
     }
-    campgrounds.push(newCampground)
-    res.redirect('/campgrounds')
+    Campground.create(newCampground, (err, campground) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log("Campground Added")
+            console.log(campground)
+            res.redirect('/campgrounds')
+        }
+    })
 })
 
 app.get('/campgrounds/new', (req, res) => {
