@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/campgrounds', (req, res) => {
-    Campground.find({},(err, campgrounds) => {
+    Campground.find({}, (err, campgrounds) => {
         if (err) {
             console.log(err)
         } else {
