@@ -2,20 +2,17 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const Campground = require('./models/campground')
+const Comment = require('./models/comment')
+const seedDB = require('./seeds')
 
 mongoose.connect("mongodb://localhost/yelp_camp", {
 	useMongoClient: true,
 })
-
-const campgroundSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-})
-const Campground = mongoose.model("Campground", campgroundSchema)
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
+
+seedDB()
 
 app.get('/', (req, res) => {
 	res.render('landing')
@@ -25,19 +22,20 @@ app.get('/campgrounds', (req, res) => {
 		if (err) {
 			console.log(err)
 		} else {
-			res.render('index', {campgrounds: campgrounds})
+			res.render('campgrounds/index', { campgrounds: campgrounds })
 		}
 	})
 })
 app.get('/campgrounds/new', (req, res) => {
-	res.render('new.ejs')
+	res.render('campgrounds/new.ejs')
 })
 app.get('/campgrounds/:id', (req, res) => {
-	Campground.findById(req.params.id, (err, campground) => {
+	Campground.findById(req.params.id).populate('comments').exec((err, campground) => {
 		if (err) {
 			console.log(err)
 		} else {
-			res.render('show', {campground: campground})
+			console.log(campground)
+			res.render('campgrounds/show', { campground: campground })
 		}
 	})
 })
@@ -54,6 +52,32 @@ app.post('/campgrounds', (req, res) => {
 			console.log("Campground Added")
 			console.log(campground)
 			res.redirect('/campgrounds')
+		}
+	})
+})
+app.get('/campgrounds/:id/comments/new', (req, res) => {
+	Campground.findById(req.params.id, (err, campground) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.render('comments/new', { campground: campground })
+		}
+	})
+})
+app.post('/campgrounds/:id/comments', (req, res) => {
+	Campground.findById(req.params.id, (err, campground) => {
+		if (err) {
+			console.log(err)
+		} else {
+			Comment.create(req.body.comment, (err, comment) => {
+				if (err) {
+					console.log(err)
+				} else {
+					campground.comments.push(comment._id)
+					campground.save()
+					res.redirect(`/campgrounds/${campground._id}`)
+				}
+			})
 		}
 	})
 })
