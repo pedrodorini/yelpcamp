@@ -5,17 +5,17 @@ const data = [
   { 
     name: 'Cloud\'s rest',
     image: 'https://static2.visitestonia.com/images/1726600/camp+small+4_.JPG',
-    description: 'A nice place to camp'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque commodo tellus quis gravida. Vivamus mollis enim a ligula rhoncus, vitae convallis massa fermentum. Donec ultricies rhoncus tellus, vulputate placerat nulla placerat quis. Nam aliquet sapien in efficitur dignissim. Vivamus at gravida massa, vulputate scelerisque mi.p'
   },
   {
     name: 'Goat\'s leap',
     image: 'https://i.ytimg.com/vi/EUU4KkezkI0/maxresdefault.jpg',
-    description: 'Bushy and dirty'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque commodo tellus quis gravida. Vivamus mollis enim a ligula rhoncus, vitae convallis massa fermentum. Donec ultricies rhoncus tellus, vulputate placerat nulla placerat quis. Nam aliquet sapien in efficitur dignissim. Vivamus at gravida massa, vulputate scelerisque mi.'
   },
   {
     name: 'Marcy\'s creak',
     image: 'https://i.pinimg.com/originals/23/27/6d/23276da5302913cb5c82fba41b9fb92d.jpg',
-    description: 'Plain, simple and clean'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur scelerisque commodo tellus quis gravida. Vivamus mollis enim a ligula rhoncus, vitae convallis massa fermentum. Donec ultricies rhoncus tellus, vulputate placerat nulla placerat quis. Nam aliquet sapien in efficitur dignissim. Vivamus at gravida massa, vulputate scelerisque mi.'
   }
 ]
 
