@@ -1,7 +1,7 @@
-const express = require("express")
+const express = require('express')
 const app = express()
-const bodyParser = require("body-parser")
-const mongoose = require("mongoose")
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const Campground = require('./models/campground')
@@ -11,15 +11,17 @@ const seedDB = require('./seeds')
 const campgroundRoutes = require('./routes/campgrounds')
 const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
+const methodOverride = require('method-override')
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost/yelp_camp", {
+mongoose.connect('mongodb://localhost/yelp_camp', {
 	useMongoClient: true,
 })
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + "/public"))
+app.use(methodOverride('_method'))
 
 // seedDB()
 

@@ -11,3 +11,9 @@
   margin-bottom: 15px;
   margin-top: 15px;
 }
+#delete-form {
+  display: inline;
+}
+.btn-warning {
+  color: #fff;
+}

@@ -41,8 +41,38 @@ router.post('/', isLoggedIn, (req, res) => {
 		if (err) {
 			console.log(err)
 		} else {
-			console.log("Campground Added")
+			console.log('Campground Added')
 			console.log(campground)
+			res.redirect('/campgrounds')
+		}
+	})
+})
+
+router.get('/:id/edit', (req, res) => {
+	Campground.findById(req.params.id, (err, campground) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.render('campgrounds/edit', {campground: campground})
+		}
+	})
+})
+
+router.put('/:id', (req, res) => {
+	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
+		if (err) {
+			console.log(err)
+		} else {
+			res.redirect(`/campgrounds/${campground._id}`)
+		}
+	})
+})
+
+router.delete('/:id', (req, res) => {
+	Campground.findByIdAndRemove(req.params.id, err => {
+		if (err) {
+			console.log(err)
+		} else {
 			res.redirect('/campgrounds')
 		}
 	})
