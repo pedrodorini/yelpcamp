@@ -25,27 +25,27 @@ function seedDB() {
      console.log(err)
     } else {
      console.log('Removed Campgrounds')
-     for (campground of data) {
-       Campground.create(campground, (err, campground) => {
-         if (err) {
-           console.log(err)
-         } else {
-           console.log(`${campground.name} added!`)
-           Comment.create({
-             text: 'Nice place indeed',
-             author: 'Bart'
-           }, (err, comment) => {
-             if (err) {
-               console.log(err)
-             } else {
-               campground.comments.push(comment._id)
-               campground.save()
-               console.log('Created new comments')
-             }
-           })
-         }
-       })
-     }
+    //  for (campground of data) {
+    //    Campground.create(campground, (err, campground) => {
+    //      if (err) {
+    //        console.log(err)
+    //      } else {
+    //        console.log(`${campground.name} added!`)
+    //        Comment.create({
+    //          text: 'Nice place indeed',
+    //          author: 'Bart'
+    //        }, (err, comment) => {
+    //          if (err) {
+    //            console.log(err)
+    //          } else {
+    //            campground.comments.push(comment._id)
+    //            campground.save()
+    //            console.log('Created new comments')
+    //          }
+    //        })
+    //      }
+    //    })
+    //  }
     }
   })
 }
