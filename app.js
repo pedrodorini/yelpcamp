@@ -2,10 +2,14 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
 const Campground = require('./models/campground')
 const Comment = require('./models/comment')
+const User = require('./models/user')
 const seedDB = require('./seeds')
 
+mongoose.Promise = global.Promise
 mongoose.connect("mongodb://localhost/yelp_camp", {
 	useMongoClient: true,
 })
@@ -14,6 +18,17 @@ app.set('view engine', 'ejs')
 app.use(express.static(__dirname + "/public"))
 
 seedDB()
+
+app.use(require('express-session')({
+	secret: 's3cr3t',
+	resave: false,
+	saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 app.get('/', (req, res) => {
 	res.render('landing')
@@ -82,6 +97,28 @@ app.post('/campgrounds/:id/comments', (req, res) => {
 		}
 	})
 })
+app.get('/register', (req, res) => {
+	res.render('register')
+})
+app.post('/register', (req, res) => {
+	let newUser = new User({username: req.body.username})
+	User.register(newUser, req.body.password, (err, user) => {
+		if (err) {
+			console.log(err)
+			return res.render('register')
+		}
+		passport.authenticate('local')(req, res, () => {
+			res.redirect('/campgrounds')
+		}) 
+	})
+})
+app.get('/login', (req, res) => {
+	res.render('login')
+})
+app.post('/login', passport.authenticate('local', {
+	successRedirect: '/campgrounds',
+	failureRedirect: '/login'
+}))
 app.listen(3000, () => {
 		console.log('Server is running on port 3000')
 })
