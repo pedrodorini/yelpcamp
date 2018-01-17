@@ -15,7 +15,7 @@ const indexRoutes = require('./routes/index')
 const methodOverride = require('method-override')
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/yelp_camp', {
+mongoose.connect('mongodb://camp:yelpcamp@ds127883.mlab.com:27883/yelpcamp', {
 	useMongoClient: true,
 })
 
