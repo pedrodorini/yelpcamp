@@ -13,6 +13,7 @@ const campgroundRoutes = require('./routes/campgrounds')
 const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
 const methodOverride = require('method-override')
+const PORT = process.env.PORT || 3000
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://camp:yelpcamp@ds127883.mlab.com:27883/yelpcamp', {
@@ -49,6 +50,6 @@ app.use(indexRoutes)
 app.use("/campgrounds", campgroundRoutes)
 app.use('/campgrounds/:id/comments', commentRoutes)
 
-app.listen(3000, () => {
-		console.log('Server is running on port 3000')
+app.listen(PORT, () => {
+		console.log(`Server is running on port ${port}`)
 })
