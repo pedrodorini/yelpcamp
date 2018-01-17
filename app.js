@@ -14,9 +14,10 @@ const commentRoutes = require('./routes/comments')
 const indexRoutes = require('./routes/index')
 const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000
+const DATABASEURL = process.env.DATABASEURL || 'mongodb://localhost/yelp_camp'
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://camp:yelpcamp@ds127883.mlab.com:27883/yelpcamp', {
+mongoose.connect(DATABASEURL, {
 	useMongoClient: true,
 })
 
