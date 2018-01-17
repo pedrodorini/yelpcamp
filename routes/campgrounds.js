@@ -19,7 +19,9 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 
 router.get('/:id', (req, res) => {
 	Campground.findById(req.params.id).populate('comments').exec((err, campground) => {
-		if (err) {
+		if (err || !campground) {
+			req.flash('error', 'Campground not found')
+			res.redirect('back')
 			console.log(err)
 		} else {
 			console.log(campground)
@@ -31,6 +33,7 @@ router.get('/:id', (req, res) => {
 router.post('/', middleware.isLoggedIn, (req, res) => {
 	let newCampground = {
 		name: req.body.name,
+		price: req.body.price,
 		image: req.body.image,
 		description: req.body.description,
 		author: {

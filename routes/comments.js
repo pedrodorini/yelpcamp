@@ -21,6 +21,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 		} else {
 			Comment.create(req.body.comment, (err, comment) => {
 				if (err) {
+					req.flash('erro', 'Something went wrong!')
 					console.log(err)
 				} else {
           comment.author.id = req.user._id
@@ -28,7 +29,9 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
           comment.save()
 
 					campground.comments.push(comment._id)
-          campground.save()
+					campground.save()
+					
+					req.flash('success', 'Successfully added comment')
           
 					res.redirect(`/campgrounds/${campground._id}`)
 				}
@@ -38,13 +41,19 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 })
 
 router.get('/:comment_id/edit', middleware.checkCommentOwnership, (req, res) => {
-	Comment.findById(req.params.comment_id, (err, comment) => {
-		if (err) {
-			console.log(err)
-			res.redirect('back')
-		} else {
-			res.render('comments/edit', {campground_id: req.params.id, comment: comment})
+	Campground.findById(req.params.id, (err, campground) => {
+		if (err || !campground) {
+			req.flash('error', 'Campground not found')
+			return res.redirect('back')
 		}
+		Comment.findById(req.params.comment_id, (err, comment) => {
+			if (err) {
+				console.log(err)
+				res.redirect('back')
+			} else {
+				res.render('comments/edit', {campground_id: req.params.id, comment: comment})
+			}
+		})
 	})
 })
 
