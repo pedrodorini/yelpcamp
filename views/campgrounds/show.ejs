@@ -13,7 +13,7 @@
       <div class="card card-body thumbnail">
         <img class="img-responsive" src="<%= campground.image %>">
         <div class="caption">
-          <h4 class="float-right">$<%= campground.price %>/night</h4>
+          <h4 class="pull-right">$<%= campground.price %>/night</h4>
           <h4><a><%=campground.name%></a></h4>
           <p><%= campground.description %></p>
           <p><em>Submitted by <%= campground.author.username %></em></p>
@@ -25,7 +25,7 @@
           <% } %>
         </div>
       </div>
-      <div class="card card-body bg-light">
+      <div class="well">
         <div class="text-right">
           <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add new comment</a>
         </div>
