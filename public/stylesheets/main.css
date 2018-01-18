@@ -24,6 +24,11 @@
   text-align: center;
 }
 .form-div {
-  width: 30%;
-   margin: 25px auto;
+  margin: 25px 15px;
+}
+@media (min-width: 640px) {
+  .form-div {
+    width: 30%;
+    margin: 25px auto;
+  }
 }
