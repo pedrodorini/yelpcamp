@@ -20,3 +20,10 @@
 .mg-t {
   margin-top: 20px;
 }
+.row h1 {
+  text-align: center;
+}
+.form-div {
+  width: 30%;
+   margin: 25px auto;
+}
